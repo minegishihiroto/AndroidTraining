@@ -19,12 +19,15 @@ import android.widget.TextView;
 import android.widget.RelativeLayout;
 
 import java.util.ArrayList;
+import android.widget.ArrayAdapter;
 
 public class MainActivity extends Activity {
 
     private Activity mActivity;
 
     private ListView mListView;
+
+    static ArrayList<Book> list;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,7 +37,7 @@ public class MainActivity extends Activity {
         mActivity = this;
 
         // データの作成
-        ArrayList<Book> list = new ArrayList<Book>();
+        list = new ArrayList<Book>();
         for (int i = 0; i < 20; i++) {
             list.add(new Book("タイトル" + i, "出版社" + i, i * 10));
         }
@@ -100,15 +103,22 @@ public class MainActivity extends Activity {
         // ListViewから長押しされたリストアイテムを取得します
         Book book = (Book) mListView.getItemAtPosition(position);
         // ListViewからセットされているAdapterを取得します
-        // BookArrayAdapter adapter = (BookArrayAdapter) mListView.getAdapter();
+        BookArrayAdapter adapter = (BookArrayAdapter) mListView.getAdapter();
 
         if (item.getItemId() == R.id.DeleteListItem) {
             // TODO:Adapterを使用して長押ししたデータを削除してください
+
+            adapter.remove(adapter.getItem(position));
+
         } else if (item.getItemId() == R.id.AddListItem) {
             // TODO:Adapterを使用して長押ししたデータを追加してください
+
+            adapter.add(book);
+
         }
         // TODO:Adapterを使用して表示されているデータを更新してください
-        
+        adapter.notifyDataSetChanged();
+
         return true;
     }
 
