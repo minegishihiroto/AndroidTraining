@@ -24,6 +24,7 @@
             android:layout_below="@+id/TitleLabel"
             android:lines="1"
             android:inputType="text"/>
+
         <TextView
             android:id="@+id/BodyLabel"
             android:layout_width="wrap_content"

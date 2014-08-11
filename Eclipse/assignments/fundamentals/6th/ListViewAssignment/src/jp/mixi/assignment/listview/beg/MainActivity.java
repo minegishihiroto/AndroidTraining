@@ -2,14 +2,21 @@
 package jp.mixi.assignment.listview.beg;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.Toast;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.TextView;
+import android.widget.RelativeLayout;
 
 import java.util.ArrayList;
 
@@ -34,13 +41,26 @@ public class MainActivity extends Activity {
 
         // TODO:BookArrayAdapterを作成して下さい。
         // (リストアイテムのレイアウトは用意されているlist_item_book.xmlをしてください。)
-        // BookArrayAdapter bookArrayAdapter = new BookArrayAdapter(mActivity,
-        // list);
+        BookArrayAdapter<String> bookArrayAdapter = new BookArrayAdapter<String>(mActivity, R.layout.list_item_book ,list);
         mListView = (ListView) findViewById(R.id.BookList);
 
         // TODO:ListViewにBookArrayAdapterをセットしてください。
+        mListView.setAdapter(bookArrayAdapter);
+
         // TODO:ListViewをタップしたとき、BookActivityに遷移するようにしてください。遷移するときにBookクラスのtitleを渡してください。
         // (BookActivityは用意されているものを使用してください)
+        mListView.setOnItemClickListener(new OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?>parent, View view, int position, long id) {
+                Intent intent = new Intent(mActivity, BookActivity.class);
+
+                LinearLayout linearLayout = (LinearLayout)((RelativeLayout) view).getChildAt(1);
+                TextView textView = (TextView) linearLayout.getChildAt(0);
+
+                intent.putExtra("BOOK_TITLE", textView.getText());
+                startActivityForResult(intent, 0);
+            }
+        });
     }
 
     @Override
